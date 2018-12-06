@@ -1,0 +1,33 @@
+---
+
+- name: set our permissions on our nfs share
+  file:
+    path: "{{ nfs_share }}"
+    mode: 0755
+    owner: nfsnobody
+    group: nfsnobody
+
+- name: Set our exports data to our share
+  set_fact:
+    exports_data: "{{ nfs_share }}"
+
+- name: Construct our exports contents
+  set_fact:
+    exports_data: "{{ exports_data }} {{ item }}(rw,sync,no_root_squash,no_all_squash)"
+  with_items: "{{ allowed_ip_ranges }}"
+
+- name: Create our exports file
+  copy:
+    dest: /etc/exports
+    content: "{{ exports_data }}"
+
+- name: Install and start our nfs services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - rpcbind
+    - nfs-server
+    - nfs-lock
+    - nfs-idmap

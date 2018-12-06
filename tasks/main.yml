@@ -1,2 +1,10 @@
 ---
-# tasks file for hmpps-nfs
+
+- name: Ensure we have our nfs utils module installed
+  package:
+    name: nfs-utils
+    state: present
+
+- name: Run our server configuration tasks
+  include: server.yml
+  when: is_nfs_server|default(false)
