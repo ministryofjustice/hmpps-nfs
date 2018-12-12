@@ -12,4 +12,8 @@ Role Variables
 is_nfs_server: boolean #default false
 nfs_share: /path/to/export
 allowed_ip_ranges: list of cidr blocks
+# For the nfs client
+is_nfs_client:boolean #default false
+nfs_mount_dir: /path/to/mount #default /data
+nfs_mount_owner: owner of mounted dir #default hmpps_sys_user
 ```

@@ -1,0 +1,24 @@
+---
+
+- name: Start our nfs client services
+  service:
+    enabled: true
+    state: started
+    name: "{{ item }}"
+  with_items:
+    - rpcbind
+    - nfs
+
+- name: Ensure we have our mount directory in place
+  file:
+    path: "{{ nfs_mount_dir|default('/data') }}"
+    state: directory
+    owner: "{{ nfs_mount_owner|default('hmpps_sys_user') }}"
+    group: "{{ nfs_mount_owner|default('hmpps_sys_user') }}"
+
+- name: Mount our nfs share
+  mount:
+    src: "nfs.{{ lookup('env', 'HMPPS_DOMAIN')| rstrip('.') or '' }}:{{ nfs_mount_dir|default('/data') }}"
+    path: "{{ nfs_mount_dir|default('/data') }}"
+    fstype: nfs
+    state: mounted

@@ -5,6 +5,12 @@
     name: nfs-utils
     state: present
 
-- name: Run our server configuration tasks
-  include: server.yml
+- block:
+    - name: Run our server configuration tasks
+      include: server.yml
   when: is_nfs_server|default(false)
+
+- block:
+    - name: Run our client configuration tasks
+      include: client.yml
+  when: is_nfs_client|default(false)
