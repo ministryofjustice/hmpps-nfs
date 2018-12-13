@@ -5,6 +5,12 @@
     name: nfs-utils
     state: present
 
+- name: Copy our custom nfs file onto the server
+  copy:
+    src: "{{ role_path }}/files/nfs"
+    dest: /etc/sysconfig/nfs
+  become: true
+
 - block:
     - name: Run our server configuration tasks
       include: server.yml
