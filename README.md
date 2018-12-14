@@ -16,4 +16,5 @@ allowed_ip_ranges: list of cidr blocks
 is_nfs_client:boolean #default false
 nfs_mount_dir: /path/to/mount #default /data
 nfs_mount_owner: owner of mounted dir #default hmpps_sys_user
+nfs_server_dir: /server/path #default /data
 ```
