@@ -18,7 +18,7 @@
 
 - name: Mount our nfs share
   mount:
-    src: "nfs.{{ lookup('env', 'HMPPS_DOMAIN')| rstrip('.') or '' }}:{{ nfs_server_dir|default('/data') }}"
+    src: "{{ nfs_server_name|default('nfs') }}.{{ lookup('env', 'HMPPS_DOMAIN')| rstrip('.') or '' }}:{{ nfs_server_dir|default('/data') }}"
     path: "{{ nfs_mount_dir|default('/data') }}"
     fstype: nfs
     state: mounted
