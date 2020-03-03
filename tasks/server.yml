@@ -31,3 +31,11 @@
     - nfs-server
     - nfs-lock
     - nfs-idmap
+
+- name: Modify RPCBIND start up
+  lineinfile:
+    path: /usr/lib/systemd/system/rpcbind.socket
+    state: present
+    regexp: '^ExecStartPre'
+    insertafter: '^ListenDatagram'
+    line: 'ExecStartPre=/usr/bin/systemctl daemon-reload'
